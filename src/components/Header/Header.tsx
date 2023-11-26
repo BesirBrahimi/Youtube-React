@@ -82,7 +82,7 @@ const Header = () => {
           <input
             type="text"
             value={searchInput}
-            className="focus:border-none focus:outline-none focus:ring-0"
+            className="focus:border-none focus:outline-none focus:ring-0 w-full"
             placeholder="Search..."
             onChange={(e) => setSearchInput(e.target.value)}
           />

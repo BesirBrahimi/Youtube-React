@@ -11,13 +11,22 @@ import { FaArrowRight } from "react-icons/fa";
 import { IconType } from "react-icons";
 
 const ResponsiveSidebar = () => {
-  const [selectedCategory, setSelectedCategory] = useState<{ label: string; icon: IconType } | undefined>(); // Assuming the default category is the first one
-
+  const [selectedCategory, setSelectedCategory] = useState<{ label: string; icon: IconType } | undefined>(); 
   const { setResponsiveSidebar, responsiveSidebar } = useGlobalContext();
+
+  const sidebarStyle: React.CSSProperties = {
+    maxHeight: responsiveSidebar ? "100%" : "0",
+    opacity: responsiveSidebar ? 1 : 0,
+    transition: "max-height 0.3s ease, opacity 0.3s ease",
+    overflow: "hidden",
+    visibility: responsiveSidebar ? "visible" : "hidden",
+  };
+
   return (
-    <div className={`w-[240px] h-full bg-white p-2 hover:overflow-y-auto transition ease-in-out duration-300 ${responsiveSidebar ? 'translate-x-0' : '-translate-x-full'}`}>
-      
-      <div className="flex items-center h-[40px] mb-3">
+<div
+      className={`w-[240px] h-full bg-white p-2`}
+      style={sidebarStyle}
+    >      <div className="flex items-center h-[40px] mb-3">
         <p
           className=" hover:bg-gray-200 p-2 m-2 rounded-full"
           onClick={() => setResponsiveSidebar(false)}
