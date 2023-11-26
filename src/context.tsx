@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import axios from "axios";
 import { YOUTUBE_API_URL } from "./utils/constans";
+import { categories } from "./data";
 
 interface AppContextType {
   shortSidebar: boolean;
@@ -92,26 +93,26 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
     setShortSidebar((prev) => !prev);
   };
 
-  const fetchDataFromYouTube = async () => {
+  const fetchDataFromYouTube = async (input: string) => {
     try {
       setIsLoading(true);
       const response = await axios.get(`${YOUTUBE_API_URL}/search`, {
         params: {
           key: API_KEY,
           maxResults: 1000,
-          q: "qendra per studime islame",
+          q: input,
           part: "snippet",
           type: "video",
         },
       });
-
       setYoutubeData(response.data.items);
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data from YouTube API:", error);
-      // setIsLoading(false);
     }
   };
+  
+  
 
   const fetchVideoCategories = async () => {
     try {
@@ -119,7 +120,7 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
         params: {
           key: API_KEY,
           part: "snippet",
-          regionCode: "US", // Adjust the region code as needed
+          regionCode: "XK", 
         },
       });
 
@@ -147,10 +148,12 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
 
   useEffect(() => {
     if (API_KEY) {
-      fetchDataFromYouTube();
+      const queryToFetch = searchInput || selectedCategory;
+      fetchDataFromYouTube(queryToFetch);
       fetchVideoCategories();
     }
-  }, [API_KEY]);
+  }, [API_KEY, searchInput, selectedCategory]);
+  
 
   return (
     <AppContext.Provider

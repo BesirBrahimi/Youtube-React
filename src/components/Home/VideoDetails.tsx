@@ -8,11 +8,11 @@ const VideoDetails = () => {
     useGlobalContext();
   const [hoveredVideo, setHoveredVideo] = useState("");
 
-  const filteredYoutubeData = youtubeData
-    ? youtubeData.filter((youtube) =>
-        youtube.snippet.title?.toLowerCase().includes(searchInput.toLowerCase())
-      )
-    : [];
+  // const filteredYoutubeData = youtubeData
+  //   ? youtubeData.filter((youtube) =>
+  //       youtube.snippet.title?.toLowerCase().includes(searchInput.toLowerCase())
+  //     )
+  //   : [];
 
   const navigate = useNavigate();
 
@@ -43,9 +43,9 @@ const VideoDetails = () => {
           <div
             className={`grid grid-cols-1 md:grid-cols-2 ${
               shortSidebar ? "xl:grid-cols-3" : "lg:grid-cols-3 xl:grid-cols-4"
-            } lg:grid-cols-3 xl:grid-cols-4 gap-2`}
+            } lg:grid-cols-3 xl:grid-cols-3 gap-2`}
           >
-            {filteredYoutubeData.map((video, index) => (
+            {youtubeData.map((video, index) => (
               <div key={index} className="p-2 relative">
                 <div className="relative group">
                   <img
