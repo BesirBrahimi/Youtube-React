@@ -14,14 +14,11 @@ const LayoutVideo = () => {
         <Header />
       </div>
       <HomeVideo />
-        {responsiveSidebar && (
-          <div
-            style={{ backgroundColor: "#000000b3" }}
-            className="z-50 fixed top-0 left-0 w-full h-full"
+         <div
+            className={`${responsiveSidebar && "bg-[#000000b3] z-50 fixed top-0 left-0 w-full h-full"}`}
           >
             <ResponsiveSidebar />
           </div>
-        )}
     </div>
   );
 };

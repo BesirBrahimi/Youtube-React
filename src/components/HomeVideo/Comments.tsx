@@ -18,10 +18,12 @@ const Comments = () => {
   const [username, setUsername] = useState("");
   const [userImage, setUserImage] = useState("");
   const fileInputRef = useRef<HTMLInputElement>(null);
-  
+  const storageKey = `comments_${id}`;
+
+
 
   useEffect(() => {
-    const storedComments = localStorage.getItem("comments");
+    const storedComments = localStorage.getItem(storageKey);
     if (storedComments) {
       setComments(JSON.parse(storedComments));
     }
@@ -41,7 +43,7 @@ const Comments = () => {
       image: userImage,
     };
     setComments([newComment, ...comments]);
-    localStorage.setItem("comments", JSON.stringify([newComment, ...comments]));
+    localStorage.setItem(storageKey, JSON.stringify([newComment, ...comments]));
     setInputComment("");
     setUsername("");
     setUserImage("");
@@ -68,8 +70,9 @@ const Comments = () => {
     const updatedComments = [...comments];
     updatedComments.splice(indexToDelete, 1);
     setComments(updatedComments);
-    localStorage.setItem("comments", JSON.stringify(updatedComments));
+    localStorage.setItem(storageKey, JSON.stringify(updatedComments));
   };
+  
 
   return (
     <div className="flex flex-col my-2">
@@ -81,7 +84,7 @@ const Comments = () => {
           <input
             type="text"
             placeholder="Your name"
-            className="focus:border-b-2 focus:border-black p-2 focus:outline-none focus:ring-0 border-b-2 w-[99%] mb-2"
+            className="focus:border-b-2 focus:border-black p-2 focus:outline-none focus:ring-0 border-b-2 w-[99%] mb-2 bg-transparent"
             value={username}
             required
             onChange={(e) => setUsername(e.target.value)}
@@ -89,7 +92,7 @@ const Comments = () => {
           <input
             type="text"
             placeholder="Add a comment"
-            className="focus:border-b-2 focus:border-black p-2 focus:outline-none focus:ring-0 border-b-2 w-[99%] my-2"
+            className="focus:border-b-2 focus:border-black p-2 focus:outline-none focus:ring-0 border-b-2 w-[99%] my-2 bg-transparent"
             value={inputComment}
             required
             onChange={(e) => setInputComment(e.target.value)}

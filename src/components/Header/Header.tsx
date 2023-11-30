@@ -6,6 +6,9 @@ import { BsCameraReels } from "react-icons/bs";
 import { MdAccountCircle } from "react-icons/md";
 import { FaSnapchatGhost, FaArrowLeft } from "react-icons/fa";
 import youtubeIcon from "../../assets/logo-yt.png";
+import youtubeWhite from "../../assets/yt-white1.png";
+import { MdOutlineDarkMode } from "react-icons/md";
+import { MdDarkMode } from "react-icons/md";
 import { useGlobalContext } from "../../context";
 import { useLocation } from "react-router-dom";
 
@@ -16,9 +19,8 @@ const Header = () => {
     setResponsiveSidebar,
     searchInput,
     setSearchInput,
-    resSidebar,
-    setResSidebar,
-    responsiveSidebar,
+    toggleTheme,
+    theme,
   } = useGlobalContext();
 
   const location = useLocation();
@@ -38,7 +40,13 @@ const Header = () => {
   }, []);
 
   return (
-    <div className="flex items-center justify-between w-full h-[60px] py-2 px-2">
+    <div
+      className={`flex items-center justify-between w-full h-[60px] py-2 px-2 ${
+        theme === "dark"
+          ? "dark:bg-[#121211] dark:text-white"
+          : "bg-white text-black"
+      }`}
+    >
       <div
         className={`${
           openSearch ? "hidden" : "flex"
@@ -46,7 +54,7 @@ const Header = () => {
       >
         {!location.pathname.includes("/layout/") && (
           <p
-            className=" hover:bg-gray-200 p-2 rounded-full sm:hidden xl:flex"
+            className=" hover:bg-gray-200 p-2 rounded-full sm:hidden xl:flex dark:hover:text-black"
             onClick={openShortSidebar}
           >
             <FaBars className="cursor-pointer w-[25px] h-[25px]" />
@@ -54,35 +62,44 @@ const Header = () => {
         )}
         {!location.pathname.includes("/layout/") && (
           <p
-            className=" hover:bg-gray-200 p-2 rounded-full xl:hidden"
-            onClick={() => setResponsiveSidebar((prev) => !prev)}
-          >
-            <FaBars className="cursor-pointer w-[25px] h-[25px]" />
-          </p>
-        )} 
-        {location.pathname.includes("/layout/") && (
-          <p
-            className="hover:bg-gray-200 p-2 rounded-full"
+            className=" hover:bg-gray-200 p-2 rounded-full xl:hidden dark:hover:text-black"
             onClick={() => setResponsiveSidebar((prev) => !prev)}
           >
             <FaBars className="cursor-pointer w-[25px] h-[25px]" />
           </p>
         )}
-
-        <a href="/">
-          <img
-            src={youtubeIcon}
-            alt="youtube-icon"
-            className="sm:w-[110px] sm:h-[20px] object-contain cursor-pointer ml-4"
-          />
-        </a>
+        {location.pathname.includes("/layout/") && (
+          <p
+            className="hover:bg-gray-200 p-2 rounded-full dark:hover:text-black"
+            onClick={() => setResponsiveSidebar((prev) => !prev)}
+          >
+            <FaBars className="cursor-pointer w-[25px] h-[25px]" />
+          </p>
+        )}
+        {theme === "dark" ? (
+          <a href="/">
+            <img
+              src={youtubeWhite}
+              alt="youtube-icon"
+              className="sm:w-[120px] sm:h-[75px] object-contain cursor-pointer ml-4 "
+            />
+          </a>
+        ) : (
+          <a href="/">
+            <img
+              src={youtubeIcon}
+              alt="youtube-icon"
+              className="sm:w-[110px] sm:h-[20px] object-contain cursor-pointer ml-4 "
+            />
+          </a>
+        )}
       </div>
       <div className="sm:hidden md:flex w-[45%] justify-between items-center p-2 mx-auto ml-4">
         <div className="flex justify-between items-center p-2 border-2 border-r-0 rounded-l-full mx-auto w-[100%] sm:hidden md:flex">
           <input
             type="text"
             value={searchInput}
-            className="focus:border-none focus:outline-none focus:ring-0 w-full"
+            className="focus:border-none focus:outline-none focus:ring-0 w-full bg-transparent"
             placeholder="Search..."
             onChange={(e) => setSearchInput(e.target.value)}
           />
@@ -94,25 +111,25 @@ const Header = () => {
           />
         </div>
         <div className="md:bg-gray-100 hover:bg-gray-200 rounded-full p-2 cursor-pointer">
-          <FaMicrophone className="w-6 h-6 rounded-full" />
+          <FaMicrophone className="w-6 h-6 rounded-full dark:text-black" />
         </div>
       </div>
       {openSearch && (
         <div className="w-[90%] flex items-center ">
           <FaArrowLeft
             onClick={() => setOpenSearch(false)}
-            className="w-[30px] cursor-pointer text-3xl p-1 rounded-full mr-2 bg-gray-100 hover:bg-gray-200  "
+            className="w-[30px] cursor-pointer text-3xl p-1 rounded-full mr-2 bg-gray-100 hover:bg-gray-200 dark:text-black "
           />
           <div className="flex justify-between items-center p-2 border-2 border-r-0 rounded-l-full sm:w-[80%] ">
             <input
               type="text"
               value={searchInput}
               onChange={(e) => setSearchInput(e.target.value)}
-              className="focus:border-none focus:outline-none focus:ring-0 sm:w-[300px]"
+              className="focus:border-none focus:outline-none focus:ring-0 sm:w-[300px] bg-transparent"
               placeholder="Search..."
             />
           </div>
-          <div className="md:flex bg-gray-100 hover:bg-gray-200 cursor-pointer p-2 border-l-2 border-2 rounded-r-full flex items-center justify-between">
+          <div className="md:flex bg-gray-100 hover:bg-gray-200 dark:hover:text-black  cursor-pointer p-2 border-l-2 border-2 rounded-r-full flex items-center justify-between">
             <IoSearch
               style={{ color: "#5c5959" }}
               className="w-[30px] h-[24px]"
@@ -124,23 +141,30 @@ const Header = () => {
       {!openSearch && (
         <div
           onClick={() => setOpenSearch(true)}
-          className="ml-20 md:ml-8 md:hidden p-2 hover:bg-gray-200 rounded-full"
+          className="ml-20 md:ml-8 md:hidden p-2 hover:bg-gray-200 rounded-full dark:hover:text-black"
         >
           <IoSearch className="w-6 h-6 md:w-8 md:h-8 rounded-full cursor-pointer" />
         </div>
       )}
-      <div className="md:hidden hover:bg-gray-200 rounded-full p-2 cursor-pointer">
+      <div className="md:hidden hover:bg-gray-200 dark:hover:text-black rounded-full p-2 cursor-pointer">
         <FaMicrophone className="w-6 h-6 rounded-full" />
       </div>
       {!openSearch && (
         <div className="sm:w-[120px] flex items-center p-1 justify-between md:w-[12%] sm:justify-center ">
-          <p className="rounded-full py-1 hover:bg-gray-200 cursor-pointer">
+          <p className="rounded-full py-1 dark:hover:text-black hover:bg-gray-200 cursor-pointer">
             <BsCameraReels className="w-[20px] h-[30px] mx-6 sm:mx-2" />
           </p>
-          <p className="rounded-full py-1 hover:bg-gray-200 cursor-pointer">
-            <FaSnapchatGhost className="w-[20px] h-[30px] mx-6 sm:mx-2" />
+          <p
+            onClick={toggleTheme}
+            className="rounded-full py-1 dark:hover:text-black hover:bg-gray-200 cursor-pointer"
+          >
+            {theme === "dark" ? (
+              <MdOutlineDarkMode className="w-[25px] h-[30px] mx-6 sm:mx-2" />
+            ) : (
+              <MdDarkMode className="w-[25px] h-[30px] mx-6 sm:mx-2" />
+            )}
           </p>
-          <p className="cursor-pointer">
+          <p className="cursor-pointer ">
             <MdAccountCircle className="w-[30px] h-[35px] mx-4 sm:mx-1 " />
           </p>
         </div>

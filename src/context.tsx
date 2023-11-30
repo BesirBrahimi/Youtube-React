@@ -25,6 +25,8 @@ interface AppContextType {
   isLoading: boolean;
   selectedCategory: string;
   setSelectedCategory: (selectedCategory: string) => void;
+  toggleTheme: () => void;
+  theme : string
 }
 
 export interface VideoCategory {
@@ -81,13 +83,28 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
   const API_KEY = process.env.REACT_APP_YOUTUBE_DATA_API_KEY;
 
   const [shortSidebar, setShortSidebar] = useState<boolean>(false);
-  const [selectedCategory, setSelectedCategory] = useState<string>("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [responsiveSidebar, setResponsiveSidebar] = useState<boolean>(false);
   const [videoCategories, setVideoCategories] = useState<VideoCategory[]>([]);
   const [youtubeData, setYoutubeData] = useState<YouTubeVideo[]>([]);
   const [searchInput, setSearchInput] = useState<string>("");
   const [resSidebar, setResSidebar] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [theme, setTheme] = useState<string>("light");
+
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme); 
+  };
+
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      setTheme(savedTheme);
+    }
+  }, []);
+
 
   const openShortSidebar = () => {
     setShortSidebar((prev) => !prev);
@@ -109,11 +126,9 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
       setIsLoading(false);
     } catch (error) {
       console.error("Error fetching data from YouTube API:", error);
-    }
+     }
   };
   
-  
-
   const fetchVideoCategories = async () => {
     try {
       const response = await axios.get(`${YOUTUBE_API_URL}/videoCategories`, {
@@ -130,6 +145,9 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
     }
   };
 
+  // const toggleTheme = () => {
+  //   setTheme((prevTheme) => (prevTheme === "light" ? "dark" : "light"));
+  // };
   
 
   useEffect(() => {
@@ -172,7 +190,9 @@ export const MyContextProvider: React.FC<MyContextProviderProps> = ({
         videoCategories,
         isLoading,
         setSelectedCategory,
-        selectedCategory
+        selectedCategory,
+        toggleTheme,
+        theme
       }}
     >
       {children}

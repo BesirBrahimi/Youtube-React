@@ -7,7 +7,7 @@ module.exports = {
     './src/**/*.ts',
     './src/**/*.tsx',
   ],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: "class",
   theme: {
     screens: {
       sm: "480px",

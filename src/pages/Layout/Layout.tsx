@@ -10,7 +10,7 @@ const Layout = () => {
   const { shortSidebar, responsiveSidebar } = useGlobalContext();
 
   return (
-    <div>
+    <div className="w-full h-full">
       <div className="sticky top-0 z-50 bg-white">
         <Header />
       </div>
@@ -20,7 +20,7 @@ const Layout = () => {
             <div className="w-1/6 sm:hidden xl:flex fixed left-0 h-full">
               <Sidebar />
             </div>
-            <div className="sm:w-5/6 lg:w-5/6 xl:ml-[15%]">
+            <div className="sm:w-5/6 lg:w-5/6 xl:ml-[15%] h-full">
               <Home />
             </div>
           </div>
@@ -29,19 +29,16 @@ const Layout = () => {
             <div className="w-1/12 sm:hidden xl:flex fixed left-0 h-full">
               <ShortSidebar />
             </div>
-            <div className="sm:w-11/12 lg:w-11/12 xl:ml-[8%]">
+            <div className="sm:w-11/12 lg:w-11/12 xl:ml-[8%] h-full">
               <Home />
             </div>
           </div>
         )}
-        {responsiveSidebar && (
           <div
-            style={{ backgroundColor: "#000000b3" }}
-            className="z-50 fixed top-0 left-0 w-full h-full xl:hidden"
+            className={`${responsiveSidebar && "bg-[#000000b3] z-50 fixed top-0 left-0 w-full h-full xl:hidden"}`}
           >
             <ResponsiveSidebar />
           </div>
-        )}
       </div>
     </div>
   );
